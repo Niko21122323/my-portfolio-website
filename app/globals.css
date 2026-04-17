@@ -15,12 +15,10 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
+  --color-accent: var(--accent);
 
   --font-body: var(--font-karla);
   --font-heading: var(--font-dm-sans);
-
-  --breakpoint-xs: 500px;
-  --breakpoint-xxs: 350px;
 }
 
 @utility container {
@@ -30,6 +28,16 @@
 body {
   background: var(--background);
   font-family: var(--font-body);
+}
+
+html,
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 h1,

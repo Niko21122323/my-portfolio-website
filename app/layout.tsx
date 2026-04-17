@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { DM_Sans, Karla } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
+import { GsapProvider } from "@/lib/gsap/providers/GsapProvider";
+import LenisProvider from "@/lib/gsap/providers/LenisProvider";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -29,7 +32,12 @@ export default function RootLayout({
       className={`${dmSans.variable} ${karla.variable} h-full antialiased`}
     >
       <body suppressHydrationWarning className="min-h-full flex flex-col">
-        {children}
+        <GsapProvider>
+          <LenisProvider>
+            <Navbar />
+            {children}
+          </LenisProvider>
+        </GsapProvider>
       </body>
     </html>
   );

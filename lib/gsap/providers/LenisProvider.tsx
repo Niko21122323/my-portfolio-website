@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef } from "react";
 import ReactLenis, { LenisRef } from "lenis/react";
 import { gsap, ScrollTrigger } from "../gsapConfig";
