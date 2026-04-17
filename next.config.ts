@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  transpilePackages: ["gsap"],
+  experimental: {
+    turbopackFileSystemCacheForBuild: true,
+  },
 };
 
 export default nextConfig;
