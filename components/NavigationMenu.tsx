@@ -3,13 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { gsap, useGSAP } from "../lib/gsap/gsapConfig";
-import { navigationLinks } from "@/lib/data/linksData";
-
-const socials = [
-  { id: 1, label: "LinkedIn", link: "" },
-  { id: 2, label: "Github", link: "" },
-  { id: 3, label: "Email", link: "" },
-];
+import { navigationLinks, socials } from "@/lib/data/linksData";
 
 const NavigationMenu = () => {
   const [isOpen, setIsOpen] = useState(false);

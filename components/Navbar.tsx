@@ -5,9 +5,9 @@ import NavigationMenu from "./NavigationMenu";
 
 const Navbar = () => {
   return (
-    <nav>
+    <nav className="absolute top-0 left-0 w-full h-auto">
       <div className="container">
-        <div className="flex items-center justify-between gap-6 py-6">
+        <div className="flex items-center justify-between gap-6 pt-6">
           <Link href="/">
             <Image
               src={myImage}
