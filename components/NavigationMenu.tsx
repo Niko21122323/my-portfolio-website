@@ -15,6 +15,8 @@ const NavigationMenu = () => {
   const topLine = useRef<HTMLSpanElement>(null);
   const bottomLine = useRef<HTMLSpanElement>(null);
 
+  const bgRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   useEffect(() => {
     const handleScroll = () => {
       const scrolled = window.scrollY > 400;
@@ -142,6 +144,46 @@ const NavigationMenu = () => {
     { scope: container, dependencies: [isOpen] },
   );
 
+  const handleMouseEnter = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    index: number,
+  ) => {
+    const bg = bgRefs.current[index];
+    if (!bg) return;
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const relY = e.clientY - rect.top;
+    const entersTop = relY < rect.height / 2;
+
+    gsap.set(bg, { transformOrigin: entersTop ? "top" : "bottom" });
+    gsap.to(bg, {
+      scaleY: 1,
+      duration: 0.4,
+      ease: "power3.out",
+      overwrite: "auto",
+    });
+  };
+
+  const handleMouseLeave = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    index: number,
+  ) => {
+    const bg = bgRefs.current[index];
+    if (!bg) return;
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const relY = e.clientY - rect.top;
+    const leavesTop = relY < rect.height / 2;
+
+    gsap.set(bg, { transformOrigin: leavesTop ? "top" : "bottom" });
+    gsap.to(bg, {
+      scaleY: 0,
+      duration: 0.4,
+      ease: "power3.out",
+      overwrite: "auto",
+    });
+  };
+
   return (
     <>
       {isOpen && (
@@ -163,26 +205,39 @@ const NavigationMenu = () => {
             style={{ width: 48, height: 48, borderRadius: "40px" }}
           >
             <div className="menu-content opacity-0 w-full sm:w-[480px] flex flex-col">
-              <div className="flex flex-col gap-6 pt-24 pb-20 px-8 border-b border-background/20">
-                {navigationLinks?.map((link) => (
-                  <div key={link.id} className="overflow-hidden">
+              <div className="flex flex-col pt-24 border-b border-background/10">
+                {navigationLinks?.map((link, index) => (
+                  <div
+                    key={link.id}
+                    className="overflow-hidden relative border-b border-background/10 last:border-none"
+                  >
                     <Link
                       href={link.link}
                       onClick={() => setIsOpen(false)}
-                      className="menu-link block text-background text-4xl font-medium translate-y-full opacity-0"
+                      onMouseEnter={(e) => handleMouseEnter(e, index)}
+                      onMouseLeave={(e) => handleMouseLeave(e, index)}
+                      className="menu-link relative block text-background text-2xl sm:text-3xl md:text-4xl font-medium uppercase py-6 px-6 sm:px-8 translate-y-full opacity-0"
                     >
-                      {link.label}
+                      <span className="relative z-10 block pointer-events-none">
+                        {link.label}
+                      </span>
+                      <div
+                        ref={(el) => {
+                          bgRefs.current[index] = el;
+                        }}
+                        className="absolute top-0 left-0 w-full h-full bg-background/10 scale-y-0"
+                      />
                     </Link>
                   </div>
                 ))}
               </div>
 
-              <div className="flex items-center gap-6 py-8 px-8">
+              <div className="flex items-center gap-6 py-8 px-6 sm:px-8">
                 {socials.map((social) => (
                   <Link
                     key={social.id}
                     href={social.link}
-                    className="text-background/80 text-sm hover:text-background"
+                    className="text-background/80 text-sm sm:text-base hover:text-background"
                   >
                     {social.label}
                   </Link>

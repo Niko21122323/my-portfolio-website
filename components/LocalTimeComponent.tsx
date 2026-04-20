@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const LocalTimeComponent = () => {
+const LocalTimeComponent = ({ theme }: { theme: string }) => {
   const [time, setTime] = useState<string>("");
 
   useEffect(() => {
@@ -27,7 +27,13 @@ const LocalTimeComponent = () => {
     return <span>--:-- --</span>;
   }
 
-  return <span>{time}</span>;
+  return (
+    <span
+      className={`text-xl ${theme === "dark" ? "text-background" : "text-foreground"}`}
+    >
+      {time}
+    </span>
+  );
 };
 
 export default LocalTimeComponent;

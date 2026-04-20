@@ -135,7 +135,7 @@ const ProjectGallery = () => {
               className="group relative"
             >
               <div className="container relative z-10">
-                <div className="flex items-center justify-between gap-6 w-full py-10 border-t border-dashed border-border group-hover:border-transparent transition-opacity duration-300 ease-in-out">
+                <div className="flex items-center justify-between gap-6 w-full py-10 border-t border-border group-hover:border-transparent transition-opacity duration-300 ease-in-out">
                   <div className="flex items-end gap-36 group-hover:-translate-x-3 transition-transform duration-300 ease-in-out">
                     <span className="text-muted text-base pb-2">
                       00{project.id}
@@ -157,17 +157,6 @@ const ProjectGallery = () => {
               ></div>
             </Link>
           ))}
-        </div>
-
-        <div className="container">
-          <div className="w-fit pt-10">
-            <Link
-              href="/"
-              className="flex items-center justify-center bg-background px-5 md:px-7 py-2 md:py-4 rounded-full border border-dashed border-border text-foreground/60 max-[510px]:w-full"
-            >
-              More Work
-            </Link>
-          </div>
         </div>
       </div>
 

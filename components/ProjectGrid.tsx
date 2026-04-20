@@ -1,5 +1,6 @@
 import { projectsData } from "@/lib/data/projectsData";
 import Image from "next/image";
+import Link from "next/link";
 
 const ProjectGrid = () => {
   return (
@@ -25,6 +26,14 @@ const ProjectGrid = () => {
               </div>
             </div>
           ))}
+        </div>
+        <div className="w-full sm:w-fit pt-16 sm:hidden">
+          <Link
+            href="/"
+            className="flex items-center justify-center bg-background px-5 md:px-7 py-2 md:py-4 rounded-full border border-border text-foreground/60 max-[510px]:w-full"
+          >
+            More Projects
+          </Link>
         </div>
       </div>
     </section>
