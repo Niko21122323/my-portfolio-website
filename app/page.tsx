@@ -1,4 +1,5 @@
 import ProjectGallery from "@/components/ProjectGallery";
+import ProjectGrid from "@/components/ProjectGrid";
 import HeroSection from "@/components/sections/HeroSection";
 
 export default function Home() {
@@ -6,6 +7,10 @@ export default function Home() {
     <main>
       <HeroSection />
       <ProjectGallery />
+      <div className="lg:hidden">
+        <ProjectGrid />
+      </div>
+
       <section className="h-[300dvh]"></section>
     </main>
   );

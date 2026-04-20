@@ -29,6 +29,8 @@ const HeroSection = () => {
                     My Work
                   </Link>
                 </div>
+              </div>
+              <div className="flex items-center justify-between pt-8 max-[510px]:pt-6 max-[510px]:justify-start">
                 <div className="flex items-center gap-4 md:gap-7">
                   {socials.slice(0, 3).map((social) => (
                     <Link
@@ -40,8 +42,7 @@ const HeroSection = () => {
                     </Link>
                   ))}
                 </div>
-              </div>
-              <div className="flex items-center justify-end pt-8 max-[510px]:pt-6 max-[510px]:justify-start">
+
                 <p className="text-foreground text-base md:text-lg font-light">
                   <span className="text-muted-foreground pr-4">
                     Local Time:

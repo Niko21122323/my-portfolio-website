@@ -1,17 +1,17 @@
 "use client";
 
-import { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useState, useRef } from "react";
 import { gsap, useGSAP } from "../lib/gsap/gsapConfig";
 import { projectsData } from "@/lib/data/projectsData";
 
 const ProjectGallery = () => {
   const [modal, setModal] = useState({ active: false, index: 0 });
-
   const containerRef = useRef<HTMLElement>(null);
   const modalContainer = useRef<HTMLDivElement>(null);
   const cursor = useRef<HTMLDivElement>(null);
+  const bgRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useGSAP(
     () => {
@@ -77,37 +77,97 @@ const ProjectGallery = () => {
     { dependencies: [modal.active], scope: containerRef },
   );
 
+  const handleMouseEnter = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    index: number,
+  ) => {
+    setModal({ active: true, index });
+    const bg = bgRefs.current[index];
+    if (!bg) return;
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const relY = e.clientY - rect.top;
+    const entersTop = relY < rect.height / 2;
+
+    gsap.set(bg, { transformOrigin: entersTop ? "top" : "bottom" });
+    gsap.to(bg, {
+      scaleY: 1,
+      duration: 0.4,
+      ease: "power3.out",
+      overwrite: "auto",
+    });
+  };
+
+  const handleMouseLeave = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    index: number,
+  ) => {
+    setModal({ active: false, index });
+    const bg = bgRefs.current[index];
+    if (!bg) return;
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const relY = e.clientY - rect.top;
+    const leavesTop = relY < rect.height / 2;
+
+    gsap.set(bg, { transformOrigin: leavesTop ? "top" : "bottom" });
+    gsap.to(bg, {
+      scaleY: 0,
+      duration: 0.4,
+      ease: "power3.out",
+      overwrite: "auto",
+    });
+  };
+
   return (
-    <section ref={containerRef} className="relative cursor-default">
-      <div className="container">
+    <section
+      ref={containerRef}
+      className="relative cursor-default max-lg:hidden"
+    >
+      <div className="">
         <div className="flex flex-col">
           {projectsData.slice(0, 4).map((project, index) => (
             <Link
               key={project.id}
               href={project.link}
-              onMouseEnter={() => setModal({ active: true, index })}
-              onMouseLeave={() => setModal({ active: false, index })}
-              className="border-t last:border-y border-dashed border-border py-10 group"
+              onMouseEnter={(e) => handleMouseEnter(e, index)}
+              onMouseLeave={(e) => handleMouseLeave(e, index)}
+              className="group relative"
             >
-              <div className="flex items-center justify-between gap-6 px-6 transition-transform duration-300">
-                <h5 className="text-foreground text-6xl xl:text-7xl group-hover:-translate-x-3 group-hover:text-muted transition-all duration-300 ease-in-out">
-                  {project.title}
-                </h5>
-                <p className="text-xl text-foreground group-hover:translate-x-3 group-hover:text-muted transition-all duration-300 ease-in-out">
-                  {project.role}
-                </p>
+              <div className="container relative z-10">
+                <div className="flex items-center justify-between gap-6 w-full py-10 border-t border-dashed border-border group-hover:border-transparent transition-opacity duration-300 ease-in-out">
+                  <div className="flex items-end gap-36 group-hover:-translate-x-3 transition-transform duration-300 ease-in-out">
+                    <span className="text-muted text-base pb-2">
+                      00{project.id}
+                    </span>
+                    <h5 className="text-foreground text-6xl xl:text-7xl group-hover:text-background transition-colors duration-300 ease-in-out leading-none">
+                      {project.title}
+                    </h5>
+                  </div>
+                  <p className="text-lg text-foreground group-hover:translate-x-3 group-hover:text-background transition-all duration-300 ease-in-out">
+                    {project.role}
+                  </p>
+                </div>
               </div>
+              <div
+                ref={(el) => {
+                  bgRefs.current[index] = el;
+                }}
+                className="absolute top-0 left-0 w-full h-full bg-accent scale-y-0"
+              ></div>
             </Link>
           ))}
         </div>
 
-        <div className="w-fit pt-10">
-          <Link
-            href="/"
-            className="flex items-center justify-center bg-background px-5 md:px-7 py-2 md:py-4 rounded-full border border-dashed border-border text-foreground/60 max-[510px]:w-full"
-          >
-            More Work
-          </Link>
+        <div className="container">
+          <div className="w-fit pt-10">
+            <Link
+              href="/"
+              className="flex items-center justify-center bg-background px-5 md:px-7 py-2 md:py-4 rounded-full border border-dashed border-border text-foreground/60 max-[510px]:w-full"
+            >
+              More Work
+            </Link>
+          </div>
         </div>
       </div>
 
